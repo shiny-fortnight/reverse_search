@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><title>Reverse Search</title></head>
+<head>
+	<title>Reverse Search</title>
+	<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+
 <body>
 {% block content %} 
 <form method="post">
@@ -12,9 +16,13 @@ User Email/Phone:<br>
 
 
 {% block results %} 
-{% if not new %}
+{% if resultFound %}
 <h2>{{ profileName }}</h2>
 <img src="{{ profilePicture }}"/>
+<table>
+	<tr><th>Full Name</th><th>Street Address</th><th>Carrier</th><th>Phone Type</th></tr>
+	<tr><td>{{whitepateRes[0]}}</td><td>{{whitepateRes[1]}}</td><td>{{whitepateRes[2]}}</td><td><{{whitepateRes[3]}}/td></tr>
+</table>
 {% endif %}
 {% endblock %}
 

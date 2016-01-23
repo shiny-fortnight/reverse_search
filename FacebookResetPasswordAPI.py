@@ -71,12 +71,14 @@ class FacebookResetPasswordAPI(object):
         # sending the request and retrieving the data
         req = s.post('https://www.facebook.com/ajax/login/help/identify.php?ctx=recover', cookies=cookies, data=data, headers=headers)
 
-        # retrieving link
         pattern = r'ldata=([a-zA-Z0-9-_]+)\\"'
-        ldata = re.findall(pattern, req.content)[0]
+        ldata = re.findall(pattern, req.content)
+        # retrieving link
         if not ldata:
             self.display_message('[!] ldata not found')
             return []
+        else:
+            ldata = ldata[0]
 
         req = s.get('https://www.facebook.com/recover/initiate?ldata=%s' % ldata)
         soup = BeautifulSoup(req.content)

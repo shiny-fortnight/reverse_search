@@ -9,17 +9,20 @@ def hello():
         return render_template('reverseSearch.html', resultFound=False)
     if request.method == "POST":
         query = request.form['email']
-        # facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
-        # profilePicture = facebookRes['profile_picture'][:-2]+'250'
-        # profileName = facebookRes['full_name']
-
+        facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
+        if facebookRes:
+            profilePicture = facebookRes['profile_picture'][:-2]+'250'
+            profileName = facebookRes['full_name']
+        else:
+            profilePicture = None
+            profileName = None
         try:
             whitepateRes = makeAPIRequest(str(query))
         except Exception, e:
             whitepateRes = e
         print whitepateRes
-        return render_template('reverseSearch.html', resultFound=True, whitepateRes=whitepateRes)
-        # return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes)
+        # return render_template('reverseSearch.html', resultFound=True, whitepateRes=whitepateRes)
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes)
 
 app.debug = True
 if __name__ == "__main__":

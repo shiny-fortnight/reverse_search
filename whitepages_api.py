@@ -47,7 +47,7 @@ def makeAPIRequest(inPhone):
     carrier = asDict['results'][0]['carrier']
     phoneType = asDict['results'][0]['line_type']
 
-    locKeys = ['standard_address_line1', 'standard_address_line2','city','state_code','zip4', 'country_code']
+    locKeys = ['standard_address_line1', 'standard_address_line2','city','standard_address_location']
     streetAddr = ''
     for name in locKeys:
         streetAddr += locationValues[name]+' ' if locationValues[name] else ''

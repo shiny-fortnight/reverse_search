@@ -3,7 +3,7 @@
 
 """
 Python util to retrieve Facebook profile from an email address.
-Using this code, you can the full name + profile picture from any account using the email address. 
+Using this code, you can the full name + profile picture from any account using the email address.
 """
 
 import requests
@@ -46,17 +46,17 @@ class FacebookResetPasswordAPI(object):
         pattern = r'"token":"([a-zA-Z0-9_-]+)"'
         token = re.findall(pattern, req.content)[0]
         if not token:
-            self.display_message('[!] token not found')
+            # self.display_message('[!] token not found')
             return []
-        self.display_message('Token retrieved: %s' % token)
+        # self.display_message('Token retrieved: %s' % token)
 
         # retrieve jsdatr
         pattern = r'"_js_datr","([a-zA-Z0-9_-]+)"'
         jsdatr = re.findall(pattern, req.content)[0]
         if not jsdatr:
-            self.display_message('[!] jsdatr not found')
+            # self.display_message('[!] jsdatr not found')
             return []
-        self.display_message('jsdatr retrieved: %s' % jsdatr)
+        # self.display_message('jsdatr retrieved: %s' % jsdatr)
 
         # setting payload
         data = {'lsd': token,
@@ -75,12 +75,13 @@ class FacebookResetPasswordAPI(object):
         ldata = re.findall(pattern, req.content)
         # retrieving link
         if not ldata:
-            self.display_message('[!] ldata not found')
+            # self.display_message('[!] ldata not found')
             return []
         else:
             ldata = ldata[0]
 
         req = s.get('https://www.facebook.com/recover/initiate?ldata=%s' % ldata)
+        print req.content
         soup = BeautifulSoup(req.content)
         full_name = soup.find('div', attrs={'class': 'fsl fwb fcb'})
         profile_picture = soup.find('img', attrs={'class': 'img'})

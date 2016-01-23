@@ -7,13 +7,13 @@ API_KEY = 'ea04b1f16b56a1b1a21b0159b8b1990e'
 
 
 def _getPhoneNumber(inPhone):
-    re.sub("\D", "", inPhone) 
-    inPhone = inPhone.replace('-','')
+    re.sub("\D", "", inPhone)
+    inPhone = inPhone.replace('-', '')
     if inPhone[0] == '1':
         inPhone = inPhone[1:]
-    print inPhone
     assert len(inPhone) == 10
     return inPhone
+
 
 def makeAPIRequest(inPhone):
     """
@@ -34,12 +34,12 @@ def makeAPIRequest(inPhone):
     if len(nameValues) > 0:
         nameValues = nameValues[0]
         if nameValues['best_name']:
-            fname=nameValues['best_name']
+            fname = nameValues['best_name']
         elif nameValues['best_name']['first_name'] or nameValues['best_name']['last_name']:
-            nameKeys = ['first_name', 'middle_name','last_name']
-            fname=''
+            nameKeys = ['first_name', 'middle_name', 'last_name']
+            fname = ''
             for name in nameKeys:
-                fname+= nameValues['names'][name] if nameValues['names'][name] else ''
+                fname += nameValues['names'][name] if nameValues['names'][name] else ''
     else:
         fname = None
 
@@ -47,10 +47,9 @@ def makeAPIRequest(inPhone):
     carrier = asDict['results'][0]['carrier']
     phoneType = asDict['results'][0]['line_type']
 
-    locKeys = ['standard_address_line1', 'standard_address_line2','city','standard_address_location']
+    locKeys = ['standard_address_line1', 'standard_address_line2', 'city', 'standard_address_location']
     streetAddr = ''
     for name in locKeys:
         streetAddr += locationValues[name]+' ' if locationValues[name] else ''
-
 
     return [fname, streetAddr, carrier, phoneType, cleaned]

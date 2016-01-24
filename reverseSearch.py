@@ -20,6 +20,7 @@ def hello():
     if request.method == "POST":
         query = request.form['email']
         keywords = request.form['keywords']
+        radius = request.form['radius']
 
         try:
             facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)

@@ -5,14 +5,8 @@ import json
 from geopy import Nominatim
 import requests
 import twython as tw
+from config import TWITTER_KEY, TWITTER_SECRET, TWITTER_TOKEN, TWITTER_TOKEN_SECRET, API_KEY
 from motionless import DecoratedMap, LatLonMarker
-
-WHITE_PAGES_API_KEY = '84120d8d9b506a3dde7a20d80dd5e27d'
-
-TWITTER_KEY = 'YABlxDeSUvuJGLcJoGsuFpCvA'
-TWITTER_SECRET = 'ALttKP1BNhsRqvGL2PR9mkcGwdgh3gKs05v8pfjJrLElrxjQ8L'
-TWITTER_TOKEN = '4840597894-HxW7lZoZQIbmkEHTjfaeb9wCDVZyLNPxAvczMZr'
-TWITTER_TOKEN_SECRET = 'ULfOa5W84nJCj5mEvULVqtmTDFWI2x8ooqgvzNonVqhIR'
 
 SEARCH_RADIUS = '150'  # tweet search radius
 SEARCH_UNITS = 'mi'
@@ -25,7 +19,7 @@ def query_white_pages(phone_number):
     '''
         Returns the address of an input phone number
     '''
-    req = 'https://proapi.whitepages.com/2.1/phone.json?api_key=%s&phone_number=%s' % (WHITE_PAGES_API_KEY,
+    req = 'https://proapi.whitepages.com/2.1/phone.json?api_key=%s&phone_number=%s' % (API_KEY,
                                                                                        phone_number)
     result = requests.get(req)
 

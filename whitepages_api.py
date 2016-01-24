@@ -3,8 +3,7 @@ import requests as r
 import sys, json, re
 import StringIO as StringIO
 
-API_KEY = '84120d8d9b506a3dde7a20d80dd5e27d'
-
+from config import API_KEY
 
 def _getPhoneNumber(inPhone):
     re.sub("\D", "", inPhone)

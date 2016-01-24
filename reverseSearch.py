@@ -1,16 +1,24 @@
 import os
 from flask import Flask, render_template, request
-from FacebookResetPasswordAPI import FacebookResetPasswordAPI
-from whitepages_api import makeAPIRequest
-from OpenCNAMAPI import OpenCNAMAPI
-from calleridservice import call_calleridservice
-from GoogleReverseImageSearch import searchImage
-from geo_twitter_lookup import search_twitter
-app = Flask(__name__)
+from modules.FacebookResetPasswordAPI import FacebookResetPasswordAPI
+from modules.whitepages_api import makeAPIRequest
+from modules.OpenCNAMAPI import OpenCNAMAPI
+from modules.calleridservice import call_calleridservice
+from modules.GoogleReverseImageSearch import searchImage
+from modules.geo_twitter_lookup import search_twitter
 
+app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
+#     if request.method == "GET":
+#         return render_template('index.html')
+
+#     if request.method == "POST":
+#         return redirect(url_for('search'))
+
+# @app.route("/search", methods=["GET", "POST"])
+# def search():
     if request.method == "GET":
         return render_template('reverseSearch.html', resultFound=False)
 
@@ -23,6 +31,7 @@ def hello():
             profileName = facebookRes['full_name']
 
             googleReverseImageSearchRes = searchImage(profilePicture)
+
         else:
             profilePicture = None
             profileName = None

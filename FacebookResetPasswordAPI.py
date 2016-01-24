@@ -81,7 +81,6 @@ class FacebookResetPasswordAPI(object):
             ldata = ldata[0]
 
         req = s.get('https://www.facebook.com/recover/initiate?ldata=%s' % ldata)
-        print req.content
         soup = BeautifulSoup(req.content)
         full_name = soup.find('div', attrs={'class': 'fsl fwb fcb'})
         profile_picture = soup.find('img', attrs={'class': 'img'})

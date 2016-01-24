@@ -9,31 +9,63 @@
 {% block content %} 
 <form method="post">
 	User Email/Phone:<br>
-	<input type="email" name="email">
+	<input type="text" name="email">
+	<br>Twitter Keywords<br>
+	<input type="text" name="keywords" placeholder="backroom,sex,trafficking"><br>
 	<input id="getInfo" name="getInfo" type="submit" value="Search"/>
 </form>
+<hr>
 {% endblock %}
 
 
 {% block results %} 
 {% if resultFound %}
+<h1>Facebook</h1>
 <h2>{{ profileName }}</h2>
 
-<img src="{{ profilePicture }}"/>
+{% if profilePicture is not none %}
+	<img src="{{ profilePicture }}"/>
+	<h1><a href="{{ googleReverseImageSearchRes }}">Google Reverse Image Search</a></h1>
+{% endif %}
+<hr>
 
+<h1>Whitepages</h1>
 <table>
 	<tr><th>Full Name</th>
+		<th>Phone Number</th>
 		<th>Street Address</th>
 		<th>Carrier</th>
 		<th>Phone Type</th>
 	</tr>
 	<tr><td>{{whitepateRes[0]}}</td>
+		<td>{{whitepateRes[4]}}</td>
 		<td>{{whitepateRes[1]}}</td>
 		<td>{{whitepateRes[2]}}</td>
 		<td>{{whitepateRes[3]}}</td>
 	</tr>
 </table>
+<hr>
 
+<h1>OpenCNAM</h1>
+<table>
+	<tr><th>Full Name</th>
+		<th>Phone Number</th>
+	</tr>
+	<tr><td>{{openCNAMAPIRes["full_name"]}}</td>
+		<td>{{openCNAMAPIRes["phone_number"]}}</td>
+	</tr>
+</table>
+<hr>
+
+<h1>Caller ID Service</h1>
+{{ calleridserviceRes }}
+
+<hr>
+<br>
+<br>
+<br>
+<br>
+<br>
 {{ twitterRes }}
 {% endif %}
 {% endblock %}

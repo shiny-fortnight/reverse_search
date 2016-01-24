@@ -36,3 +36,5 @@ TWITTER_ACCESS_STOKEN
 | watching now      | containing both “watching” and “now”. This is the default operator. |
 | “happy hour”      | containing the exact phrase “happy hour”.      |
 | scary,movie | tweets containing scary, tweets containing movie, tweets containing BOTH scary and movie     |
+
+[Read more about search queries on Twitter](https://dev.twitter.com/rest/public/search)

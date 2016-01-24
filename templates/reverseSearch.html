@@ -121,6 +121,19 @@ Tweets near {{whitepateRes[1]}} containing "{{request.form['keywords']}}"
 <h1>True Caller</h1>
 {{ truecallerRes }}
 <hr>
+
+
+<h1>Possible Related Backpage Links</h1>
+<table>
+    <tr><th>Possible Related<th>
+    </tr>
+    {% for item in backpageRes %}
+    <tr><td> {{item}} </td>
+    </tr>
+    {%endfor%}
+</table>
+<hr>
+
 <br>
 <br>
 <br>

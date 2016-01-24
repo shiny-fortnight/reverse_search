@@ -17,6 +17,7 @@ def hello():
     if request.method == "POST":
         query = request.form['email']
         keywords = request.form['keywords']
+        radius = request.form['radius']
         facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
@@ -33,7 +34,10 @@ def hello():
         except Exception, e:
             whitepateRes = e
 
-        twitterRes = search_twitter(str(query), str(keywords))
+        try:
+            twitterRes = search_twitter(str(query), str(keywords), str(radius))
+        except Exception, e:
+            twitterRes = e
 
         try:
             openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)

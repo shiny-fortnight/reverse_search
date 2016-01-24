@@ -48,9 +48,9 @@ def search():
             googleReverseImageSearchRes = None
 
         try:
-            whitepateRes = makeAPIRequest(str(query))
+            whitepageRes = makeAPIRequest(str(query))
         except Exception, e:
-            whitepateRes = e
+            whitepageRes = e
 
         try:
             twitterRes = search_twitter(str(query), str(keywords), str(radius))
@@ -81,7 +81,7 @@ def search():
 
         truecallerRes = get_truecaller_result(query)
 
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes)
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepageRes=whitepageRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes)
 
 app.debug = True
 if __name__ == "__main__":

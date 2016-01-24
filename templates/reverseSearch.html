@@ -1,128 +1,234 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
 	<title>Reverse Search</title>
-	<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/portfolio-item.css') }}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='cssOld/style.css') }}"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
 <body>
-{% block content %} 
-<form method="post">
-	User Email/Phone:<br>
-	<input type="text" name="email">
-	<br>Twitter Keywords<br>
-	<input type="text" name="keywords" placeholder="backroom,sex,trafficking"><br>
-	Twitter tweet search radius (mi)<br>
-	<input type="number" name="radius" placeholder="150"><br>
-	<input id="getInfo" name="getInfo" type="submit" value="Search"/>
-</form>
-<hr>
-{% endblock %}
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Reverse Search</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Reverse Search
+                    <!-- <small>Item Subheading</small> -->
+                </h1>
+				<form method="post">
+					User Email/Phone:<br>
+					<input type="text" name="email">
+					<br>Twitter Keywords<br>
+					<input type="text" name="keywords" placeholder="backroom,sex,trafficking"><br>
+					Twitter tweet search radius (mi)<br>
+					<input type="number" name="radius" placeholder="150"><br>
+					<input id="getInfo" name="getInfo" type="submit" value="Search"/>
+				</form>
+				<hr>
+            </div>
+        </div>
+        <!-- /.row -->
+        {% if resultFound %}
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+
+            <div class="col-md-4">
+				
+				<h3>Facebook</h3>
+				<h4>{{ profileName }}</h4>
+
+				{% if profilePicture is not none %}
+					<img class="img-responsive" src="{{ profilePicture }}"/>
+				{% endif %}
+				<hr>
+            </div>
+
+            <div class="col-md-4">
+				<h3><a href="{{ googleReverseImageSearchRes }}">Google Reverse Image Search</a></h3>
+				<hr>
+
+				<h3>Caller ID Service</h3>
+				{{ calleridserviceRes }}
+				<hr>
+
+				<h3>True Caller</h1>
+				{{ truecallerRes }}
+            </div>
+
+            <div class="col-md-4">
+				<h3>OpenCNAM</h3>
+				<table>
+					<tr><th>Full Name</th>
+						<th>Phone Number</th>
+					</tr>
+					<tr><td>{{openCNAMAPIRes["full_name"]}}</td>
+						<td>{{openCNAMAPIRes["phone_number"]}}</td>
+					</tr>
+				</table>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <!-- Related Projects Row -->
+        <div class="row">
+
+            <div class="col-sm-4 col-xs-6">
+                <h3>Whitepages</h3>
+				<table>
+					<tr><th>Full Name</th>
+						<th>Phone Number</th>
+						<th>Street Address</th>
+						<th>Carrier</th>
+						<th>Phone Type</th>
+					</tr>
+					<tr><td>{{whitepageRes[0]}}</td>
+						<td>{{whitepageRes[4]}}</td>
+						<td>{{whitepageRes[1]}}</td>
+						<td>{{whitepageRes[2]}}</td>
+						<td>{{whitepageRes[3]}}</td>
+					</tr>
+				</table>
+            </div>
+
+            <div class="col-sm-4 col-xs-6">
+				<h3>Database Ad Matches</h3>
+				<table>
+				    <tr><th>URL</th>
+				        <th>Ad Title</th>
+				        <th>Ad Content</th>
+				        <th>Location</th>
+				    </tr>
+				    {%for match in adMatches %}
+				    <tr><td>{{match[0]}}</td>
+				        <td>{{match[1]}}</td>
+				        <td>{{match[2]}}</td>
+				        <td>{{match[3]}}</td>
+				    </tr>
+				    {% endfor %}
+				</table>
+            </div>
+
+            <div class="col-sm-4 col-xs-6">
+				<h3>Database Forum Matches</h3>
+				<table>
+				    <tr><th>URL</th>
+				        <th>Content</th>
+				        <th>Forum Username</th>
+				    </tr>
+				    {%for fmatch in forumMatches %}
+				    <tr><td>{{fmatch[0]}}</td>
+				        <td>{{fmatch[1]}}</td>
+				        <td>{{fmatch[2]}}</td>
+				    </tr>
+				    {% endfor %}
+				</table>
+            </div>
+        </div>
+        <!-- /.row -->
+		{% endif %}
 
 
-{% block results %} 
-{% if resultFound %}
-<h1>Facebook</h1>
-<h2>{{ profileName }}</h2>
+        <hr>
 
-{% if profilePicture is not none %}
-	<img src="{{ profilePicture }}"/>
-	<hr>
+        <div class="row">
 
-	<h1><a href="{{ googleReverseImageSearchRes }}">Google Reverse Image Search</a></h1>
-{% endif %}
-<hr>
+            <div class="col-sm-12 col-xs-12">
+                <h3>Twitter Feed</h3>
+				Tweets near {{whitepageRes[1]}} containing "{{request.form['keywords']}}"
+				<table>
+					<tr><th>Twitter Handle</th>
+						<th>Tweet</th>
+						<th>Coordinates (lat, lon)</th>
+					</tr>
+					{% for item in twitterRes %}
+					<tr>
+						<td>{{item[0]}}</td>
+						<td>{{item[1]}}</td>
+						<td>{{item[2]}}</td>
+					</tr>
+					{% endfor %}
+				</table>
+				<hr>
+            </div>
 
-<h1>Whitepages</h1>
-<table>
-	<tr><th>Full Name</th>
-		<th>Phone Number</th>
-		<th>Street Address</th>
-		<th>Carrier</th>
-		<th>Phone Type</th>
-	</tr>
-	<tr><td>{{whitepateRes[0]}}</td>
-		<td>{{whitepateRes[4]}}</td>
-		<td>{{whitepateRes[1]}}</td>
-		<td>{{whitepateRes[2]}}</td>
-		<td>{{whitepateRes[3]}}</td>
-	</tr>
-</table>
-<hr>
+        </div>
 
-<h1>Database Ad Matches</h1>
-<table>
-    <tr><th>URL</th>
-        <th>Ad Title</th>
-        <th>Ad Content</th>
-        <th>Location</th>
-    </tr>
-    {%for match in adMatches %}
-    <tr><td>{{match[0]}}</td>
-        <td>{{match[1]}}</td>
-        <td>{{match[2]}}</td>
-        <td>{{match[3]}}</td>
-    </tr>
-    {% endfor %}
-</table>
-<hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
 
-<h1>Database Forum Matches</h1>
-<table>
-    <tr><th>URL</th>
-        <th>Content</th>
-        <th>Forum Username</th>
-    </tr>
-    {%for fmatch in forumMatches %}
-    <tr><td>{{fmatch[0]}}</td>
-        <td>{{fmatch[1]}}</td>
-        <td>{{fmatch[2]}}</td>
-    </tr>
-    {% endfor %}
-</table>
-<hr>
+    </div>
+    <!-- /.container -->
 
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-<h1>OpenCNAM</h1>
-<table>
-	<tr><th>Full Name</th>
-		<th>Phone Number</th>
-	</tr>
-	<tr><td>{{openCNAMAPIRes["full_name"]}}</td>
-		<td>{{openCNAMAPIRes["phone_number"]}}</td>
-	</tr>
-</table>
-<hr>
-
-<h1>Twitter Feed</h1>
-Tweets near {{whitepateRes[1]}} containing "{{request.form['keywords']}}"
-<table>
-	<tr><th>Twitter Handle</th>
-		<th>Tweet</th>
-		<th>Coordinates (lat, lon)</th>
-	</tr>
-	{% for item in twitterRes %}
-	<tr>
-		<td>{{item[0]}}</td>
-		<td>{{item[1]}}</td>
-		<td>{{item[2]}}</td>
-	</tr>
-	{% endfor %}
-</table>
-<hr>
-
-<h1>Caller ID Service</h1>
-{{ calleridserviceRes }}
-{% endif %}
-{% endblock %}
-<hr>
-
-<h1>True Caller</h1>
-{{ truecallerRes }}
-<hr>
-<br>
-<br>
-<br>
 </body>
+
 </html>

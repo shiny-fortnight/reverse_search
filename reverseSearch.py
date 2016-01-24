@@ -35,7 +35,10 @@ def hello():
 
         twitterRes = search_twitter(str(query), str(keywords))
 
-        openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+        try:
+            openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+        except Exception, e:
+            openCNAMAPIRes = e
 
         calleridserviceRes = call_calleridservice(query)
 

@@ -63,7 +63,10 @@ def hello():
         except Exception, e:
             ads = [['None Found']*4]
             forum = [['None Found']*3]
-       
+        if len(ads) > 1:
+            ads = [ads[0]]
+        if len(forum) > 1:
+            forum = [forum[0]]
 
         return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads)
 

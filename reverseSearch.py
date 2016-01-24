@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from FacebookResetPasswordAPI import FacebookResetPasswordAPI
 from whitepages_api import makeAPIRequest
+from OpenCNAMAPI import OpenCNAMAPI
+from calleridservice import call_calleridservice
 app = Flask(__name__)
 
 
@@ -26,7 +28,11 @@ def hello():
 
         # twitterRes = 
 
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes)
+        # openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+
+        calleridserviceRes = call_calleridservice(query)
+
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes)
         # return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, twitterRes=twitterRes)
 
 app.debug = True

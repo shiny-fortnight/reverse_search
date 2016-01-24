@@ -29,7 +29,7 @@ TWITTER_ACCESS_TOKEN
 TWITTER_ACCESS_STOKEN
 ```
 
-###How Twitter input search works
+#How Twitter input search works
 
 | Keyword Search Input        | Finds tweets....           |
 | ------------- |:-------------:|

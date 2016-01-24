@@ -31,6 +31,9 @@ def query_white_pages(phone_number):
 
     asDict = json.loads(result.text)
 
+    if 'error' in asDict:
+        return ValueError('Invalid white pages result. Did we exceed WP API limit?')
+
     locationValues = asDict['results'][0]['best_location']
 
     locKeys = ['standard_address_line1', 'standard_address_line2',
@@ -94,12 +97,12 @@ def search_twitter(phone_number=None, keywords=None):
             if coordinates is not None:
                 coordinates = coordinates['coordinates']
 
-            tweets.append(["@%s: %s %s" % (name, tweet_text, coordinates)])
+            tweets.append([name, tweet_text, coordinates])
             tweet_coordinates.append(coordinates)
 
     map_url = create_twitter_map(tweet_coordinates)
 
-    return tweets, map_url
+    return tweets
 
 if __name__ == '__main__':
     search_twitter('6176354500', 'sex')

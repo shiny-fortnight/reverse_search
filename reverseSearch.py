@@ -4,6 +4,7 @@ from whitepages_api import makeAPIRequest
 from OpenCNAMAPI import OpenCNAMAPI
 from calleridservice import call_calleridservice
 from GoogleReverseImageSearch import searchImage
+from geo_twitter_lookup import search_twitter
 app = Flask(__name__)
 
 
@@ -14,6 +15,7 @@ def hello():
 
     if request.method == "POST":
         query = request.form['email']
+        keywords = request.form['keywords']
         facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
@@ -30,16 +32,13 @@ def hello():
         except Exception, e:
             whitepateRes = e
 
-        # twitterRes = 
+        twitterRes = search_twitter(str(query), str(keywords))
 
-        # openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
-        openCNAMAPIRes = None
+        openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
 
         calleridserviceRes = call_calleridservice(query)
 
-
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes)
-        # return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, twitterRes=twitterRes)
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes)
 
 app.debug = True
 if __name__ == "__main__":

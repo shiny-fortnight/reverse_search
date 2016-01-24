@@ -7,14 +7,14 @@ import requests
 import twython as tw
 from motionless import DecoratedMap, LatLonMarker
 
-WHITE_PAGES_API_KEY = 'ea04b1f16b56a1b1a21b0159b8b1990e'
+WHITE_PAGES_API_KEY = '84120d8d9b506a3dde7a20d80dd5e27d'
 
 TWITTER_KEY = 'YABlxDeSUvuJGLcJoGsuFpCvA'
 TWITTER_SECRET = 'ALttKP1BNhsRqvGL2PR9mkcGwdgh3gKs05v8pfjJrLElrxjQ8L'
 TWITTER_TOKEN = '4840597894-HxW7lZoZQIbmkEHTjfaeb9wCDVZyLNPxAvczMZr'
 TWITTER_TOKEN_SECRET = 'ULfOa5W84nJCj5mEvULVqtmTDFWI2x8ooqgvzNonVqhIR'
 
-SEARCH_RADIUS = '100'  # tweet search radius
+SEARCH_RADIUS = '150'  # tweet search radius
 SEARCH_UNITS = 'mi'
 
 TWITTER = tw.Twython(
@@ -30,6 +30,9 @@ def query_white_pages(phone_number):
     result = requests.get(req)
 
     asDict = json.loads(result.text)
+
+    if 'error' in asDict:
+        return ValueError('Invalid white pages result. Did we exceed WP API limit?')
 
     locationValues = asDict['results'][0]['best_location']
 
@@ -60,7 +63,10 @@ def create_twitter_map(coordinates):
     return dmap.generate_url()
 
 
-def search_twitter(phone_number=None, keywords=None):
+def search_twitter(phone_number=None, keywords=None, radius='150'):
+    global SEARCH_RADIUS
+    SEARCH_RADIUS = radius
+
     if phone_number is None or not phone_number.isdigit():
         return ValueError('Invalid phone #')
 
@@ -94,12 +100,12 @@ def search_twitter(phone_number=None, keywords=None):
             if coordinates is not None:
                 coordinates = coordinates['coordinates']
 
-            tweets.append(["@%s: %s %s" % (name, tweet_text, coordinates)])
+            tweets.append([name, tweet_text, coordinates])
             tweet_coordinates.append(coordinates)
 
     map_url = create_twitter_map(tweet_coordinates)
 
-    return tweets, map_url
+    return tweets
 
 if __name__ == '__main__':
     search_twitter('6176354500', 'sex')

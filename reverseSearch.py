@@ -1,4 +1,5 @@
 import os
+import itertools
 from flask import Flask, render_template, request
 from modules.FacebookResetPasswordAPI import FacebookResetPasswordAPI
 from modules.whitepages_api import makeAPIRequest
@@ -6,8 +7,10 @@ from modules.OpenCNAMAPI import OpenCNAMAPI
 from modules.calleridservice import call_calleridservice
 from modules.GoogleReverseImageSearch import searchImage
 from modules.geo_twitter_lookup import search_twitter
-
+from modules.related_lookup import GetRelatedInfo
+from modules.truecaller import get_truecaller_result
 app = Flask(__name__)
+
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
@@ -25,7 +28,13 @@ def hello():
     if request.method == "POST":
         query = request.form['email']
         keywords = request.form['keywords']
-        facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
+        radius = request.form['radius']
+
+        try:
+            facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
+        except Exception:
+            facebookRes = None
+        
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
             profileName = facebookRes['full_name']
@@ -42,13 +51,36 @@ def hello():
         except Exception, e:
             whitepateRes = e
 
-        twitterRes = search_twitter(str(query), str(keywords))
+        try:
+            twitterRes = search_twitter(str(query), str(keywords), str(radius))
+        except Exception, e:
+            twitterRes = e
 
-        openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+        try:
+            openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+        except ValueError:
+            openCNAMAPIRes = dict()
+            openCNAMAPIRes['full_name'] = "None Found"
+            openCNAMAPIRes['phone_number'] = "None Found"
 
         calleridserviceRes = call_calleridservice(query)
 
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes)
+        try:
+            griclass = GetRelatedInfo()
+            gri = griclass.checkPhoneNumber(query)
+            ads = gri['ads'] if len(gri['ads']) > 0 else [['None Found']*4]
+            forum = gri['forums'] if len(gri['forums']) > 0 else [['None Found']*3]
+        except Exception, e:
+            ads = [['None Found']*4]
+            forum = [['None Found']*3]
+        if len(ads) > 1:
+            ads = [ads[0]]
+        if len(forum) > 1:
+            forum = [forum[0]]
+
+        truecallerRes = get_truecaller_result(query)
+
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes)
 
 app.debug = True
 if __name__ == "__main__":

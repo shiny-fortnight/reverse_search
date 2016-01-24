@@ -9,7 +9,8 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import phonenumbers
-
+from flask import Markup
+from config import OPEN_CNAM_KEY, OPEN_CNAM_SECRET
 
 class OpenCNAMAPI(object):
 
@@ -49,11 +50,11 @@ class OpenCNAMAPI(object):
             raise ValueError('Bad Input Phone')
         
         s = requests.Session()
-        req = s.get('https://ACc8aa48a044604425ba66940a2f6bdb54:AUfb0f7a1fd66f489c9f9e6d22426ccaa9@api.opencnam.com/v2/phone/%s?format=json' % formatted_number)
+        req = s.get('https://%s:%s@api.opencnam.com/v2/phone/%s?format=json' % (OPEN_CNAM_KEY, OPEN_CNAM_SECRET, formatted_number))
         soup = BeautifulSoup(req.content)
         json_result = json.loads(str(soup))
 
         dataJson = json.dumps(json_result)
-        full_name = json_result['name']
+        full_name = Markup('<a target="_blank" href="https://www.google.com/#q='+json_result['name']+'">'+json_result['name']+'</a>')
         phone_number = json_result['number']
         return {'dataJson': dataJson, 'full_name': full_name, 'phone_number': phone_number}

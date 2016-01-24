@@ -5,16 +5,10 @@ import json
 from geopy import Nominatim
 import requests
 import twython as tw
+from config import TWITTER_KEY, TWITTER_SECRET, TWITTER_TOKEN, TWITTER_TOKEN_SECRET, API_KEY
 from motionless import DecoratedMap, LatLonMarker
 
-WHITE_PAGES_API_KEY = 'ea04b1f16b56a1b1a21b0159b8b1990e'
-
-TWITTER_KEY = 'YABlxDeSUvuJGLcJoGsuFpCvA'
-TWITTER_SECRET = 'ALttKP1BNhsRqvGL2PR9mkcGwdgh3gKs05v8pfjJrLElrxjQ8L'
-TWITTER_TOKEN = '4840597894-HxW7lZoZQIbmkEHTjfaeb9wCDVZyLNPxAvczMZr'
-TWITTER_TOKEN_SECRET = 'ULfOa5W84nJCj5mEvULVqtmTDFWI2x8ooqgvzNonVqhIR'
-
-SEARCH_RADIUS = '100'  # tweet search radius
+SEARCH_RADIUS = '150'  # tweet search radius
 SEARCH_UNITS = 'mi'
 
 TWITTER = tw.Twython(
@@ -25,7 +19,7 @@ def query_white_pages(phone_number):
     '''
         Returns the address of an input phone number
     '''
-    req = 'https://proapi.whitepages.com/2.1/phone.json?api_key=%s&phone_number=%s' % (WHITE_PAGES_API_KEY,
+    req = 'https://proapi.whitepages.com/2.1/phone.json?api_key=%s&phone_number=%s' % (API_KEY,
                                                                                        phone_number)
     result = requests.get(req)
 
@@ -63,7 +57,10 @@ def create_twitter_map(coordinates):
     return dmap.generate_url()
 
 
-def search_twitter(phone_number=None, keywords=None):
+def search_twitter(phone_number=None, keywords=None, radius='150'):
+    global SEARCH_RADIUS
+    SEARCH_RADIUS = radius
+
     if phone_number is None or not phone_number.isdigit():
         return ValueError('Invalid phone #')
 

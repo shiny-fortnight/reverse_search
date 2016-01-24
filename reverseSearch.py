@@ -77,6 +77,7 @@ def search():
         if len(ads) > 1:
             ads = [ads[0]]
         if len(forum) > 1:
+            print forum
             forum = [forum[0]]
 
         try:
@@ -86,10 +87,11 @@ def search():
 
         try:
             backpageResults = doBackpageRequest(query)
-            print backpageResults
             if len(backpageResults) > 5:
                 backpageResults = backpageResults[:4]
         except Exception:
+            backpageResults = ["No Results Found"]
+        if len(backpageResults) == 0:
             backpageResults = ["No Results Found"]
 
         return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepageRes=whitepageRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes, backpageRes = backpageResults)

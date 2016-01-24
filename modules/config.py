@@ -1,6 +1,6 @@
 # White pages API key
-API_KEY = '84120d8d9b506a3dde7a20d80dd5e27d'
-
+#API_KEY = '84120d8d9b506a3dde7a20d80dd5e27d'
+API_KEY = '1ba48cc41378d909e8b7e3cc91ca0738'
 # Twitter API keys
 TWITTER_KEY = 'YABlxDeSUvuJGLcJoGsuFpCvA'
 TWITTER_SECRET = 'ALttKP1BNhsRqvGL2PR9mkcGwdgh3gKs05v8pfjJrLElrxjQ8L'

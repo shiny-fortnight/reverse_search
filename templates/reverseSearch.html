@@ -28,7 +28,7 @@
 </head>
 
 <body>
-
+    
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -60,7 +60,8 @@
         </div>
         <!-- /.container -->
     </nav>
-
+    <br>
+    <br>
     <!-- Page Content -->
     <div class="container">
 
@@ -107,7 +108,7 @@
 				{{ calleridserviceRes }}
 				<hr>
 
-				<h3>True Caller</h1>
+				<h3>True Caller</h3>
 				{{ truecallerRes }}
             </div>
 
@@ -122,14 +123,14 @@
 					</tr>
 				</table>
             </div>
-
+        
         </div>
         <!-- /.row -->
 
         <!-- Related Projects Row -->
         <div class="row">
 
-            <div class="col-sm-4 col-xs-6">
+            <div class="col-sm-12 col-xs-12 col-lg-12">
                 <h3>Whitepages</h3>
 				<table>
 					<tr><th>Full Name</th>
@@ -146,8 +147,10 @@
 					</tr>
 				</table>
             </div>
+        </div>
 
-            <div class="col-sm-4 col-xs-6">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-lg-12">
 				<h3>Database Ad Matches</h3>
 				<table>
 				    <tr><th>URL</th>
@@ -164,8 +167,10 @@
 				    {% endfor %}
 				</table>
             </div>
+        </div>
 
-            <div class="col-sm-4 col-xs-6">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-lg-12">
 				<h3>Database Forum Matches</h3>
 				<table>
 				    <tr><th>URL</th>
@@ -205,7 +210,22 @@
 				</table>
 				<hr>
             </div>
-
+            
+            <div class="col-sm-12 col-xs-12">
+                <h3>Backpage Links</h3>
+                Possible Backpage links that contain this number.
+                <table>
+					<tr><th>URL</th>
+					</tr>
+					{% for item in backpageRes %}
+					<tr>
+						<td>{{item}}</td>
+					</tr>
+					{% endfor %}
+				</table>
+				<hr>
+            </div>
+        
         </div>
 
 		{% endif %}

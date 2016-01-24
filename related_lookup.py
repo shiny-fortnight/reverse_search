@@ -1,14 +1,14 @@
 import sqlite3 as sql
 import re, os
 
-db = '../dab.sqlite3'
+db = '../dab1.sqlite3'
 fileExists = os.path.isfile(db)
 
 forum_table = 'forums'
 ads_table = 'ads'
 
 forum_columns = [4,6,7]
-ads_columns = [4,4,6,9]
+ads_columns = [4,5,6,9]
 
 def _getPhoneNumber(inPhone):
     re.sub("\D", "", inPhone) 

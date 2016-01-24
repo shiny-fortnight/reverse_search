@@ -20,6 +20,8 @@ def hello():
     if request.method == "POST":
         query = request.form['email']
         keywords = request.form['keywords']
+        radius = request.form['radius']
+
         try:
             facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
         except Exception:
@@ -40,7 +42,10 @@ def hello():
         except Exception, e:
             whitepateRes = e
 
-        twitterRes = search_twitter(str(query), str(keywords))
+        try:
+            twitterRes = search_twitter(str(query), str(keywords), str(radius))
+        except Exception, e:
+            twitterRes = e
 
         try:
             openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
@@ -59,7 +64,10 @@ def hello():
         except Exception, e:
             ads = [['None Found']*4]
             forum = [['None Found']*3]
-       
+        if len(ads) > 1:
+            ads = [ads[0]]
+        if len(forum) > 1:
+            forum = [forum[0]]
 
         return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads)
 

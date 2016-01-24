@@ -12,6 +12,7 @@ python reverseSearch.py
 
 ##Setting/Retrieving API Keys
 You will need the following API Keys:
+
 1. White pages <[Register here](http://pro.whitepages.com/lp/search-by-api-signup/)>
 
 2. Twitter <[Register an account here](https://apps.twitter.com/)>

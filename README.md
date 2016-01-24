@@ -28,3 +28,11 @@ TWITTER_SECRET
 TWITTER_ACCESS_TOKEN
 TWITTER_ACCESS_STOKEN
 ```
+
+###How Twitter input search works
+
+| Keyword Search Input        | Finds tweets....           |
+| ------------- |:-------------:|
+| watching now      | containing both “watching” and “now”. This is the default operator. |
+| “happy hour”      | containing the exact phrase “happy hour”.      |
+| scary,movie | tweets containing scary, tweets containing movie, tweets containing BOTH scary and movie     |

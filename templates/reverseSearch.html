@@ -46,6 +46,40 @@
 </table>
 <hr>
 
+<h1>Database Ad Matches</h1>
+<table>
+    <tr><th>URL</th>
+        <th>Ad Title</th>
+        <th>Ad Content</th>
+        <th>Location</th>
+    </tr>
+    {%for match in adMatches %}
+    <tr><td>{{match[0]}}</td>
+        <td>{{match[1]}}</td>
+        <td>{{match[2]}}</td>
+        <td>{{match[3]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<hr>
+
+<h1>Database Forum Matches</h1>
+<table>
+    <tr><th>URL</th>
+        <th>Content</th>
+        <th>Forum Username</th>
+    </tr>
+    {%for fmatch in forumMatches %}
+    <tr><td>{{fmatch[0]}}</td>
+        <td>{{fmatch[1]}}</td>
+        <td>{{fmatch[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<hr>
+
+
+
 <h1>OpenCNAM</h1>
 <table>
 	<tr><th>Full Name</th>

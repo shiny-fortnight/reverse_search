@@ -1,5 +1,5 @@
 # System imports
-import  json
+import json
 
 # Third-party dependencies
 from geopy import Nominatim
@@ -14,10 +14,12 @@ TWITTER_SECRET = 'ALttKP1BNhsRqvGL2PR9mkcGwdgh3gKs05v8pfjJrLElrxjQ8L'
 TWITTER_TOKEN = '4840597894-HxW7lZoZQIbmkEHTjfaeb9wCDVZyLNPxAvczMZr'
 TWITTER_TOKEN_SECRET = 'ULfOa5W84nJCj5mEvULVqtmTDFWI2x8ooqgvzNonVqhIR'
 
-SEARCH_RADIUS = 100 # tweet search radius
+SEARCH_RADIUS = '100'  # tweet search radius
 SEARCH_UNITS = 'mi'
 
-TWITTER = tw.Twython(TWITTER_KEY,TWITTER_SECRET,TWITTER_TOKEN,TWITTER_TOKEN_SECRET)
+TWITTER = tw.Twython(
+    TWITTER_KEY, TWITTER_SECRET, TWITTER_TOKEN, TWITTER_TOKEN_SECRET)
+
 
 def query_white_pages(phone_number):
     '''
@@ -31,13 +33,16 @@ def query_white_pages(phone_number):
 
     locationValues = asDict['results'][0]['best_location']
 
-    locKeys = ['standard_address_line1', 'standard_address_line2', 'city', 'standard_address_location']
+    locKeys = ['standard_address_line1', 'standard_address_line2',
+               'city', 'standard_address_location']
     streetAddr = ''
 
     for name in locKeys:
-        streetAddr += locationValues[name]+' ' if locationValues[name] else ''
+        streetAddr += locationValues[name] + \
+            ' ' if locationValues[name] else ''
 
     return streetAddr
+
 
 def create_twitter_map(coordinates):
     dmap = DecoratedMap()
@@ -53,6 +58,7 @@ def create_twitter_map(coordinates):
         dmap.add_marker(tweet_marker)
 
     return dmap.generate_url()
+
 
 def search_twitter(phone_number=None, keywords=None):
     if phone_number is None or not phone_number.isdigit():

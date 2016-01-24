@@ -17,6 +17,8 @@ You will need the following API Keys:
 
 2. Twitter <[Register an account here](https://apps.twitter.com/)>
 
+3. OpenCNAM <[Register an account here](http://www.opencnam.com/register)>
+
 ###Update the API keys in the config.py file
 ```
 # White pages API Key
@@ -27,4 +29,18 @@ TWITTER_KEY
 TWITTER_SECRET
 TWITTER_ACCESS_TOKEN
 TWITTER_ACCESS_STOKEN
+
+# Open CNAM API Keys
+OPEN_CNAM_KEY
+OPEN_CNAM_SECRET
 ```
+
+#How Twitter input search works
+
+| Keyword Search Input        | Finds tweets....           |
+| ------------- |:-------------:|
+| watching now      | containing both “watching” and “now”. This is the default operator. |
+| “happy hour”      | containing the exact phrase “happy hour”.      |
+| scary,movie | tweets containing scary, tweets containing movie, tweets containing BOTH scary and movie     |
+
+[Read more about search queries on Twitter](https://dev.twitter.com/rest/public/search)

@@ -27,6 +27,8 @@
 
 {% if profilePicture is not none %}
 	<img src="{{ profilePicture }}"/>
+	<hr>
+
 	<h1><a href="{{ googleReverseImageSearchRes }}">Google Reverse Image Search</a></h1>
 {% endif %}
 <hr>
@@ -114,6 +116,13 @@ Tweets near {{whitepateRes[1]}} containing "{{request.form['keywords']}}"
 {{ calleridserviceRes }}
 {% endif %}
 {% endblock %}
+<hr>
 
+<h1>True Caller</h1>
+{{ truecallerRes }}
+<hr>
+<br>
+<br>
+<br>
 </body>
 </html>

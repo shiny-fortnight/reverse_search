@@ -20,16 +20,12 @@ def hello():
     if request.method == "POST":
         query = request.form['email']
         keywords = request.form['keywords']
-<<<<<<< HEAD
-        radius = request.form['radius']
-        facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
-=======
+
         try:
             facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
         except Exception:
             facebookRes = None
         
->>>>>>> 99f90a4603162de88fd2d2cf3e42e37ee3fb3c5d
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
             profileName = facebookRes['full_name']

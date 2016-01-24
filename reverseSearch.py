@@ -1,3 +1,4 @@
+from flask import Flask, render_template, request, url_for, redirect
 import os
 import itertools
 from flask import Flask, render_template, request
@@ -9,19 +10,21 @@ from modules.GoogleReverseImageSearch import searchImage
 from modules.geo_twitter_lookup import search_twitter
 from modules.related_lookup import GetRelatedInfo
 from modules.truecaller import get_truecaller_result
+
 app = Flask(__name__)
+
 
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
-#     if request.method == "GET":
-#         return render_template('index.html')
+    if request.method == "GET":
+        return render_template('index.html')
 
-#     if request.method == "POST":
-#         return redirect(url_for('search'))
+    if request.method == "POST":
+        return redirect(url_for('search'))
 
-# @app.route("/search", methods=["GET", "POST"])
-# def search():
+@app.route("/search", methods=["GET", "POST"])
+def search():
     if request.method == "GET":
         return render_template('reverseSearch.html', resultFound=False)
 
@@ -34,13 +37,11 @@ def hello():
             facebookRes = FacebookResetPasswordAPI({'verbose': True}).get(query)
         except Exception:
             facebookRes = None
-        
+
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
             profileName = facebookRes['full_name']
-
             googleReverseImageSearchRes = searchImage(profilePicture)
-
         else:
             profilePicture = None
             profileName = None
@@ -84,5 +85,4 @@ def hello():
 
 app.debug = True
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run()

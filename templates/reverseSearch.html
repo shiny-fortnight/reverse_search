@@ -9,7 +9,7 @@
 {% block content %} 
 <form method="post">
 	User Email/Phone:<br>
-	<input type="email" name="email">
+	<input type="text" name="email">
 	<input id="getInfo" name="getInfo" type="submit" value="Search"/>
 </form>
 <hr>
@@ -23,6 +23,7 @@
 
 {% if profilePicture is not none %}
 	<img src="{{ profilePicture }}"/>
+	<h1><a href="{{ googleReverseImageSearchRes }}">Google Reverse Image Search</a></h1>
 {% endif %}
 <hr>
 

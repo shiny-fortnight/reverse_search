@@ -3,6 +3,7 @@ from FacebookResetPasswordAPI import FacebookResetPasswordAPI
 from whitepages_api import makeAPIRequest
 from OpenCNAMAPI import OpenCNAMAPI
 from calleridservice import call_calleridservice
+from GoogleReverseImageSearch import searchImage
 app = Flask(__name__)
 
 
@@ -17,9 +18,12 @@ def hello():
         if facebookRes:
             profilePicture = facebookRes['profile_picture'][:-2]+'250'
             profileName = facebookRes['full_name']
+
+            googleReverseImageSearchRes = searchImage(profilePicture)
         else:
             profilePicture = None
             profileName = None
+            googleReverseImageSearchRes = None
 
         try:
             whitepateRes = makeAPIRequest(str(query))
@@ -29,10 +33,12 @@ def hello():
         # twitterRes = 
 
         # openCNAMAPIRes = OpenCNAMAPI({'verbose': True}).get(query)
+        openCNAMAPIRes = None
 
         calleridserviceRes = call_calleridservice(query)
 
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes)
+
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes)
         # return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepateRes=whitepateRes, twitterRes=twitterRes)
 
 app.debug = True

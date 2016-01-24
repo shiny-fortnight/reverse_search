@@ -9,6 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import phonenumbers
+from flask import Markup
 
 
 class OpenCNAMAPI(object):
@@ -54,6 +55,6 @@ class OpenCNAMAPI(object):
         json_result = json.loads(str(soup))
 
         dataJson = json.dumps(json_result)
-        full_name = json_result['name']
+        full_name = Markup('<a target="_blank" href="https://www.google.com/#q='+json_result['name']+'">'+json_result['name']+'</a>')
         phone_number = json_result['number']
         return {'dataJson': dataJson, 'full_name': full_name, 'phone_number': phone_number}

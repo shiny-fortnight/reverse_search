@@ -10,7 +10,7 @@ from modules.GoogleReverseImageSearch import searchImage
 from modules.geo_twitter_lookup import search_twitter
 from modules.related_lookup import GetRelatedInfo
 from modules.truecaller import get_truecaller_result
-
+from backpage_api import doBackpageRequest
 app = Flask(__name__)
 
 
@@ -79,9 +79,20 @@ def search():
         if len(forum) > 1:
             forum = [forum[0]]
 
-        truecallerRes = get_truecaller_result(query)
+        try:
+            truecallerRes = get_truecaller_result(query)
+        except IOError:
+            truecallerRes = "None Found on TrueCaller"
 
-        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepageRes=whitepageRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes)
+        try:
+            backpageResults = doBackpageRequest(query)
+            print backpageResults
+            if len(backpageResults) > 5:
+                backpageResults = backpageResults[:4]
+        except Exception:
+            backpageResults = ["No Results Found"]
+
+        return render_template('reverseSearch.html', resultFound=True, profilePicture=profilePicture, profileName=profileName, whitepageRes=whitepageRes, openCNAMAPIRes=openCNAMAPIRes, calleridserviceRes=calleridserviceRes, googleReverseImageSearchRes=googleReverseImageSearchRes, twitterRes=twitterRes, forumMatches=forum, adMatches=ads, truecallerRes=truecallerRes, backpageRes = backpageResults)
 
 app.debug = True
 if __name__ == "__main__":

@@ -20,8 +20,9 @@ import time
 # options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
 # driver = webdriver.Chrome(chromedriver, chrome_options=options, )
 
-
 def get_truecaller_result(phone):
+    phone = phone.replace("-","").replace(" ","")
+
     driver = webdriver.Firefox()
     #These are gmail credentials
     username = 'httrafficking123'
@@ -30,11 +31,11 @@ def get_truecaller_result(phone):
     #Selenium searches truecaller and automatically
     #completes authentication process with google
     driver.get('http://www.truecaller.com/us/' + phone)
-    time.sleep(2)
+    time.sleep(3)
 
     google_button = driver.find_element_by_id('signInGoogle')
     google_button.click()
-    time.sleep(2)
+    time.sleep(3)
 
     main_window_handle = driver.current_window_handle
 
@@ -71,24 +72,30 @@ def get_truecaller_result(phone):
 
     driver.switch_to.window(main_window_handle)
     time.sleep(2)
-
-    result_class = driver.find_element_by_class_name('detailView__nameText')
-    result = result_class.text
+    try:
+        print "========== Trying to get "
+        result_class = driver.find_element_by_class_name('detailView__nameText')
+        result = result_class.text
+    except Exception:
+        print "====== in exception"
+        driver.quit()
+        return ""
     # try:
     #     driver.quit()
     # except AttributeError:
     #     pass
-    driver.close()
-    
+    driver.quit()
+    """ 
     #Closes all emulated Chrome windows
     if len(driver.window_handles) > 0:
         for window_handle in driver.window_handles:
             driver.switch_to.window(window_handle)
             driver.close()
-        
+    """    
     return result
-    
-# print get_truecaller_result('617-916-9754')
+
+if __name__=="__main__":
+    print get_truecaller_result('617-916-9754')
 
 
 

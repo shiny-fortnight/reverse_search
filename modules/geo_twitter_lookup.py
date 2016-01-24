@@ -56,16 +56,15 @@ def create_twitter_map(coordinates):
 
     return dmap.generate_url()
 
-
 def search_twitter(phone_number=None, keywords=None, radius='150'):
     global SEARCH_RADIUS
     SEARCH_RADIUS = radius
 
     if phone_number is None or not phone_number.isdigit():
-        return ValueError('Invalid phone #')
+        return ValueError(['Invalid phone #'])
 
     if keywords is '' or keywords is None:
-        return ValueError("No keywords provided")
+        return ValueError(["No keywords provided"])
 
     streetAddr = query_white_pages(phone_number)
 
@@ -73,7 +72,7 @@ def search_twitter(phone_number=None, keywords=None, radius='150'):
     location = geolocator.geocode(streetAddr)
 
     if location is None:
-        return ValueError('Invalid phone #')
+        return ValueError(['Invalid phone #'])
 
     lat, lon = location.latitude, location.longitude
 
